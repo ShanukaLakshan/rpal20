@@ -1,4 +1,4 @@
-package csem;
+package csemachine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,17 +6,10 @@ import java.util.Stack;
 
 import ast.ASTNode;
 
-/**
- * Class to make copies of nodes on value stack. Used to pass back copies of
- * environment bindings so that later uses of those bindings are not affected
- * by any changes made in any earlier deltas.
- * 
- * <p>Uses the Visitor pattern to avoid instanceOf code smell.
- * 
- * @author Group 9
- */
+// NodeCopier class to copy the ASTNodes
 public class NodeCopier{
   
+  // copy the ASTNode
   public ASTNode copy(ASTNode astNode){
     ASTNode copy = new ASTNode();
     if(astNode.getChild()!=null)
@@ -28,7 +21,8 @@ public class NodeCopier{
     copy.setSourceLineNumber(astNode.getSourceLineNumber());
     return copy;
   }
-  
+
+
   public Beta copy(Beta beta){
     Beta copy = new Beta();
     if(beta.getChild()!=null)
@@ -69,6 +63,7 @@ public class NodeCopier{
     return copy;
   }
   
+  // copy the delta
   public Delta copy(Delta delta){
     Delta copy = new Delta();
     if(delta.getChild()!=null)
@@ -90,11 +85,12 @@ public class NodeCopier{
     boundVarsCopy.addAll(delta.getBoundVars());
     copy.setBoundVars(boundVarsCopy);
     
-    copy.setLinkedEnv(delta.getLinkedEnv());
+    copy.setLinkedEnvironment(delta.getLinkedEnv());
     
     return copy;
   }
   
+  // copy the tuple
   public Tuple copy(Tuple tuple){
     Tuple copy = new Tuple();
     if(tuple.getChild()!=null)
