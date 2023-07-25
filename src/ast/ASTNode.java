@@ -5,11 +5,11 @@ import csem.NodeCopier;
 // Abstract Syntax Tree node. Uses a first-child, next-sibling representation.
 
 public class ASTNode {
-  protected ASTNodeType type;
-  protected String value;
-  protected ASTNode child;
-  protected ASTNode sibling;
-  protected int sourceLineNumber;
+  private ASTNodeType type;
+  private String value;
+  private ASTNode child;
+  private ASTNode sibling;
+  private int sourceLineNumber;
 
   public String getName() {
     return type.name();

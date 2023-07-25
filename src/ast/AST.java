@@ -7,12 +7,12 @@ import csem.Beta;
 import csem.Delta;
 
 public class AST {
-  protected ASTNode root;
-  protected ArrayDeque<PendingDeltaBody> pendingDeltaBodyQueue;
-  protected boolean standardized;
-  protected Delta currentDelta;
-  protected Delta rootDelta;
-  protected int deltaIndex;
+  private ASTNode root;
+  private ArrayDeque<PendingDeltaBody> pendingDeltaBodyQueue;
+  private boolean standardized;
+  private Delta currentDelta;
+  private Delta rootDelta;
+  private int deltaIndex;
 
   public AST(ASTNode node) {
     this.root = node;
@@ -22,7 +22,7 @@ public class AST {
     preOrderPrint(root, "");
   }
 
-  protected void preOrderPrint(ASTNode node, String printPrefix) {
+  private void preOrderPrint(ASTNode node, String printPrefix) {
     if (node == null)
       return;
 
@@ -31,7 +31,7 @@ public class AST {
     preOrderPrint(node.getSibling(), printPrefix);
   }
 
-  protected void printASTNodeDetails(ASTNode node, String printPrefix) {
+  private void printASTNodeDetails(ASTNode node, String printPrefix) {
     if (node.getType() == ASTNodeType.IDENTIFIER ||
         node.getType() == ASTNodeType.INTEGER) {
       System.out.printf(printPrefix + node.getType().getPrintName() + "\n", node.getValue());
@@ -47,7 +47,7 @@ public class AST {
     standardized = true;
   }
 
-  protected void standardize(ASTNode node) {
+  private void standardize(ASTNode node) {
     // standardize the children node
     if (node.getChild() != null) {
       ASTNode childNode = node.getChild();
@@ -227,7 +227,7 @@ public class AST {
     }
   }
 
-  protected void populateCommaAndTauNode(ASTNode equalNode, ASTNode commaNode, ASTNode tauNode) {
+  private void populateCommaAndTauNode(ASTNode equalNode, ASTNode commaNode, ASTNode tauNode) {
     if (equalNode.getType() != ASTNodeType.EQUAL)
       throw new StandardizeException("SIMULTDEF: one of the children is not EQUAL"); // safety
     ASTNode x = equalNode.getChild();
@@ -236,7 +236,7 @@ public class AST {
     setChild(tauNode, e);
   }
 
-  protected void setChild(ASTNode parentNode, ASTNode childNode) {
+  private void setChild(ASTNode parentNode, ASTNode childNode) {
     if (parentNode.getChild() == null)
       parentNode.setChild(childNode);
     else {
@@ -248,7 +248,7 @@ public class AST {
     childNode.setSibling(null);
   }
 
-  protected ASTNode constructLambdaChain(ASTNode node) {
+  private ASTNode constructLambdaChain(ASTNode node) {
     if (node.getSibling() == null)
       return node;
 
@@ -268,7 +268,7 @@ public class AST {
     return rootDelta;
   }
 
-  protected Delta createDelta(ASTNode startBodyNode) {
+  private Delta createDelta(ASTNode startBodyNode) {
     // Delta node create later
     PendingDeltaBody pendingDelta = new PendingDeltaBody();
     pendingDelta.startNode = startBodyNode;
@@ -286,14 +286,14 @@ public class AST {
     return d;
   }
 
-  protected void processPendingDeltaStack() {
+  private void processPendingDeltaStack() {
     while (!pendingDeltaBodyQueue.isEmpty()) {
       PendingDeltaBody pendingDeltaBody = pendingDeltaBodyQueue.pop();
       buildDeltaBody(pendingDeltaBody.startNode, pendingDeltaBody.body);
     }
   }
 
-  protected void buildDeltaBody(ASTNode node, Stack<ASTNode> body) {
+  private void buildDeltaBody(ASTNode node, Stack<ASTNode> body) {
     if (node.getType() == ASTNodeType.LAMBDA) {
       // create a new delta
       Delta d = createDelta(node.getChild().getSibling());
@@ -341,7 +341,7 @@ public class AST {
     }
   }
 
-  protected class PendingDeltaBody {
+  private class PendingDeltaBody {
     Stack<ASTNode> body;
     ASTNode startNode;
   }
