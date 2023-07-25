@@ -34,7 +34,7 @@ public class Parser{
   //
   private void Read(){
     do{
-      curToken = s.readNextToken(); 
+      curToken = s.NextToken(); 
     }while(curToken != null && curToken.getType() == TokenType.DELETE);
     if(null != curToken){
       if(curToken.getType()==TokenType.IDENTIFIER){
