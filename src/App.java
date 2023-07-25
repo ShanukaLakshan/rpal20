@@ -10,7 +10,6 @@ public class App {
     String fileName = args[0];
     AST ast = null;
     ast = buildAST(fileName, true);
-    // ast.print();
     ast.standardize();
     evaluateST(ast);
 

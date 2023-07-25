@@ -1,6 +1,6 @@
 package ast;
 
-// Type of abstract syntax tree node. As specified in the RPAL phrase structure grammar.
+// AST node using the RPAL phrase tructure grammar
 
 public enum ASTNodeType {
   // General

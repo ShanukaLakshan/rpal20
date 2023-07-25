@@ -19,26 +19,26 @@ public class AST {
   }
 
   public void print() {
-    preOrderPrint(root, "");
+    showPreOrder(root, "");
   }
 
-  private void preOrderPrint(ASTNode node, String printPrefix) {
+  private void showPreOrder(ASTNode node, String showPrefix) {
     if (node == null)
       return;
 
-    printASTNodeDetails(node, printPrefix);
-    preOrderPrint(node.getChild(), printPrefix + ".");
-    preOrderPrint(node.getSibling(), printPrefix);
+    printASTNodeDetails(node, showPrefix);
+    showPreOrder(node.getChild(), showPrefix + ".");
+    showPreOrder(node.getSibling(), showPrefix);
   }
 
-  private void printASTNodeDetails(ASTNode node, String printPrefix) {
+  private void printASTNodeDetails(ASTNode node, String showPrefix) {
     if (node.getType() == ASTNodeType.IDENTIFIER ||
         node.getType() == ASTNodeType.INTEGER) {
-      System.out.printf(printPrefix + node.getType().getPrintName() + "\n", node.getValue());
+      System.out.printf(showPrefix + node.getType().getPrintName() + "\n", node.getValue());
     } else if (node.getType() == ASTNodeType.STRING)
-      System.out.printf(printPrefix + node.getType().getPrintName() + "\n", node.getValue());
+      System.out.printf(showPrefix + node.getType().getPrintName() + "\n", node.getValue());
     else
-      System.out.println(printPrefix + node.getType().getPrintName());
+      System.out.println(showPrefix + node.getType().getPrintName());
   }
 
   // Standerdize the tree bottom-up
@@ -67,7 +67,7 @@ public class AST {
         // X E X P
         ASTNode equalNode = node.getChild();
         if (equalNode.getType() != ASTNodeType.EQUAL)
-          throw new StandardizeException("LET/WHERE: left child is not EQUAL"); // safety
+          throw new StandardizeException("LET/WHERE: left child is not EQUAL"); // Send warning
         ASTNode e = equalNode.getChild().getSibling();
         equalNode.getChild().setSibling(equalNode.getSibling());
         equalNode.setSibling(e);
@@ -126,7 +126,7 @@ public class AST {
         // X1 E2
         if (node.getChild().getType() != ASTNodeType.EQUAL
             || node.getChild().getSibling().getType() != ASTNodeType.EQUAL)
-          throw new StandardizeException("WITHIN: one of the children is not EQUAL"); // safety
+          throw new StandardizeException("WITHIN: one of the children is not EQUAL"); // Send warning
         ASTNode x1 = node.getChild().getChild();
         e1 = x1.getSibling();
         ASTNode x2 = node.getChild().getSibling().getChild();
@@ -172,7 +172,7 @@ public class AST {
         // X E
         childNode = node.getChild();
         if (childNode.getType() != ASTNodeType.EQUAL)
-          throw new StandardizeException("REC: child is not EQUAL"); // safety
+          throw new StandardizeException("REC: child is not EQUAL"); // Send warning
         ASTNode x = childNode.getChild();
         lambdaNode = new ASTNode();
         lambdaNode.setType(ASTNodeType.LAMBDA);
@@ -199,37 +199,18 @@ public class AST {
         node.getChild().setSibling(constructLambdaChain(childSibling));
         break;
       default:
-        // Node types we do NOT standardize:
-        // CSE Optimization Rule 6 (binops)
-        // OR
-        // AND
-        // PLUS
-        // MINUS
-        // MULT
-        // DIV
-        // EXP
-        // GR
-        // GE
-        // LS
-        // LE
-        // EQ
-        // NE
-        // CSE Optimization Rule 7 (unops)
-        // NOT
-        // NEG
-        // CSE Optimization Rule 8 (conditionals)
-        // CONDITIONAL
-        // CSE Optimization Rule 9, 10 (tuples)
-        // TAU
-        // CSE Optimization Rule 11 (n-ary functions)
-        // COMMA
+        // CSE Optimization Rule 6 (binops), OR, AND, PLUS, MINUS, MULT, DIV, EXP, GR,
+        // GE, LS, LE, EQ, NE, CSE Optimization Rule 7 (unops), NOT, NEG, CSE
+        // Optimization Rule 8 (conditionals), CONDITIONAL, CSE Optimization Rule 9, 10
+        // (tuples), TAU, CSE Optimization Rule 11 (n-ary functions), COMMA
+
         break;
     }
   }
 
   private void populateCommaAndTauNode(ASTNode equalNode, ASTNode commaNode, ASTNode tauNode) {
     if (equalNode.getType() != ASTNodeType.EQUAL)
-      throw new StandardizeException("SIMULTDEF: one of the children is not EQUAL"); // safety
+      throw new StandardizeException("SIMULTDEF: one of the children is not EQUAL (1)");
     ASTNode x = equalNode.getChild();
     ASTNode e = x.getSibling();
     setChild(commaNode, x);
