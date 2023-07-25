@@ -2,62 +2,60 @@ package ast;
 
 import csem.NodeCopier;
 
-/**
- * Abstract Syntax Tree node. Uses a first-child, next-sibling representation.
- * @author Group 9
- */
-public class ASTNode{
-  private ASTNodeType type;
-  private String value;
-  private ASTNode child;
-  private ASTNode sibling;
-  private int sourceLineNumber;
-  
-  public String getName(){
+// Abstract Syntax Tree node. Uses a first-child, next-sibling representation.
+
+public class ASTNode {
+  protected ASTNodeType type;
+  protected String value;
+  protected ASTNode child;
+  protected ASTNode sibling;
+  protected int sourceLineNumber;
+
+  public String getName() {
     return type.name();
   }
 
-  public ASTNodeType getType(){
+  public ASTNodeType getType() {
     return type;
   }
 
-  public void setType(ASTNodeType type){
+  public void setType(ASTNodeType type) {
     this.type = type;
   }
 
-  public ASTNode getChild(){
+  public ASTNode getChild() {
     return child;
   }
 
-  public void setChild(ASTNode child){
+  public void setChild(ASTNode child) {
     this.child = child;
   }
 
-  public ASTNode getSibling(){
+  public ASTNode getSibling() {
     return sibling;
   }
 
-  public void setSibling(ASTNode sibling){
+  public void setSibling(ASTNode sibling) {
     this.sibling = sibling;
   }
 
-  public String getValue(){
+  public String getValue() {
     return value;
   }
 
-  public void setValue(String value){
+  public void setValue(String value) {
     this.value = value;
   }
 
-  public ASTNode accept(NodeCopier nodeCopier){
+  public ASTNode accept(NodeCopier nodeCopier) {
     return nodeCopier.copy(this);
   }
 
-  public int getSourceLineNumber(){
+  public int getSourceLineNumber() {
     return sourceLineNumber;
   }
 
-  public void setSourceLineNumber(int sourceLineNumber){
+  public void setSourceLineNumber(int sourceLineNumber) {
     this.sourceLineNumber = sourceLineNumber;
   }
 }
