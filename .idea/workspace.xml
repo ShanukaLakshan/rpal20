@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e3c01766-f31a-418d-a394-def53e5d0e6f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/bin/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/AST$PendingDeltaBody.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ast/AST$PendingDeltaBody.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/AST.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ast/AST.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ast/ASTNode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTNodeType.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ast/ASTNodeType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StandardizeException.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ast/StandardizeException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/Beta.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/Beta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/CSEMachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/CSEMachine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/Delta.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/Delta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/Environment.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/Environment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/Eta.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/Eta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/EvaluationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/EvaluationError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/NodeCopier.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/NodeCopier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/csem/Tuple.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/csem/Tuple.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/ParseException.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/parser/ParseException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/parser/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scanner/LexicalRegexPatterns.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scanner/LexicalRegexPatterns.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scanner/Scanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scanner/Scanner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scanner/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scanner/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scanner/TokenType.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scanner/TokenType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2T3Wdd01IBpZjRU1PIj5rAQk72I" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "D:/UoM/4th Semester/CS3512 - Programming Languages/Lab/Project/rpal20"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e3c01766-f31a-418d-a394-def53e5d0e6f" name="Changes" comment="" />
+      <created>1690272350209</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1690272350209</updated>
+    </task>
+    <servers />
+  </component>
+</project>

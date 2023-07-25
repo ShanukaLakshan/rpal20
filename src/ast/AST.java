@@ -3,8 +3,8 @@ package ast;
 import java.util.ArrayDeque;
 import java.util.Stack;
 
-import csem.Beta;
-import csem.Delta;
+import csemachine.Beta;
+import csemachine.Delta;
 
 public class AST {
   private ASTNode root;

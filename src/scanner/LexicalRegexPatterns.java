@@ -2,12 +2,9 @@ package scanner;
 
 import java.util.regex.Pattern;
 
-/**
- * Regex matchers that comply with RPAL's lexical grammar. Used by the scanner to
- * tokenize the input.
- * 
- * @author Group 9
- */
+/*
+ group the inputs and get sets of tokens */
+ 
 public class LexicalRegexPatterns{
   private static final String letterRegexString = "a-zA-Z";
   private static final String digitRegexString = "\\d";
