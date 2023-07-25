@@ -1,10 +1,11 @@
-package csem;
+package csemachine;
 
 import java.util.Stack;
 import ast.AST;
 import ast.ASTNode;
 import ast.ASTNodeType;
 
+// the CSEMachine class is responsible for evaluating the AST
 public class CSEMachine{
 
   private Stack<ASTNode> valueStack;
@@ -12,9 +13,9 @@ public class CSEMachine{
 
   public CSEMachine(AST ast){
     if(!ast.isStandardized())
-      throw new RuntimeException("AST has NOT been standardized!"); //should never happen
+      throw new RuntimeException("AST must be standardized before it can be evaluated");
     rootDelta = ast.createDeltas();
-    rootDelta.setLinkedEnv(new Environment()); //primitive environment
+    rootDelta.setLinkedEnvironment(new Environment());
     valueStack = new Stack<ASTNode>();
   }
 
@@ -23,8 +24,6 @@ public class CSEMachine{
   }
 
   private void processControlStack(Delta currentDelta, Environment currentEnv){
-    //create a new control stack and add all of the delta's body to it so that the delta's body isn't
-    //modified whenever the control stack is popped in all the functions below
     Stack<ASTNode> controlStack = new Stack<ASTNode>();
     controlStack.addAll(currentDelta.getBody());
     
@@ -54,20 +53,17 @@ public class CSEMachine{
           applyGamma(currentDelta, node, currentEnv, currentControlStack);
           break;
         case DELTA:
-          ((Delta)node).setLinkedEnv(currentEnv); //RULE 2
+          ((Delta)node).setLinkedEnvironment(currentEnv); //RULE 2
           valueStack.push(node);
           break;
         default:
-          // Although we use ASTNodes, a CSEM will only ever see a subset of all possible ASTNodeTypes.
-          // These are the types that are NOT standardized away into lambdas and gammas. E.g. types
-          // such as LET, WHERE, WITHIN, SIMULTDEF etc will NEVER be encountered by the CSEM
           valueStack.push(node);
           break;
       }
     }
   }
+  // applyBinaryOperation and applyUnaryOperation are the two methods that handle the evaluation of the AST
 
-  // RULE 6
   private boolean applyBinaryOperation(ASTNode rator){
     switch(rator.getType()){
       case PLUS:
@@ -262,7 +258,7 @@ public class CSEMachine{
     valueStack.push(rand1);
   }
 
-  // RULE 7
+  // applyUnaryOperation is a method that handles the evaluation of the unary operations
   private boolean applyUnaryOperation(ASTNode rator){
     switch(rator.getType()){
       case NOT:
@@ -306,24 +302,19 @@ public class CSEMachine{
     if(rator.getType()==ASTNodeType.DELTA){
       Delta nextDelta = (Delta) rator;
       
-      //Delta has a link to the environment in effect when it is pushed on to the value stack (search
-      //for 'RULE 2' in this file to see where it's done)
-      //We construct a new environment here that will contain all the bindings (single or multiple)
-      //required by this Delta. This new environment will link back to the environment carried by the Delta.
       Environment newEnv = new Environment();
       newEnv.setParent(nextDelta.getLinkedEnv());
-      
-      //RULE 4
+
       if(nextDelta.getBoundVars().size()==1){
         newEnv.addMapping(nextDelta.getBoundVars().get(0), rand);
       }
-      //RULE 11
+
       else{
         if(rand.getType()!=ASTNodeType.TUPLE)
           EvaluationError.printError(rand.getSourceLineNumber(), "Expected a tuple; was given \""+rand.getValue()+"\"");
         
         for(int i = 0; i < nextDelta.getBoundVars().size(); i++){
-          newEnv.addMapping(nextDelta.getBoundVars().get(i), getNthTupleChild((Tuple)rand, i+1)); //+ 1 coz tuple indexing starts at 1
+          newEnv.addMapping(nextDelta.getBoundVars().get(i), getNthTupleChild((Tuple)rand, i+1)); 
         }
       }
       
@@ -331,7 +322,6 @@ public class CSEMachine{
       return;
     }
     else if(rator.getType()==ASTNodeType.YSTAR){
-      //RULE 12
       if(rand.getType()!=ASTNodeType.DELTA)
         EvaluationError.printError(rand.getSourceLineNumber(), "Expected a Delta; was given \""+rand.getValue()+"\"");
       
@@ -341,12 +331,9 @@ public class CSEMachine{
       return;
     }
     else if(rator.getType()==ASTNodeType.ETA){
-      //RULE 13
-      //push back the rand, the eta and then the delta it contains
       valueStack.push(rand);
       valueStack.push(rator);
       valueStack.push(((Eta)rator).getDelta());
-      //push back two gammas (one for the eta and one for the delta)
       currentControlStack.push(node);
       currentControlStack.push(node);
       return;
@@ -361,6 +348,7 @@ public class CSEMachine{
       EvaluationError.printError(rator.getSourceLineNumber(), "Don't know how to evaluate \""+rator.getValue()+"\"");
   }
 
+  // evaluateReservedIdentifiers is a method that handles the evaluation of the reserved identifiers
   private boolean evaluateReservedIdentifiers(ASTNode rator, ASTNode rand, Stack<ASTNode> currentControlStack){
     switch(rator.getValue()){
       case "Isinteger":
@@ -391,11 +379,9 @@ public class CSEMachine{
         stern(rand);
         return true;
       case "Conc":
-      case "conc": //typos
         conc(rand, currentControlStack);
         return true;
       case "Print":
-      case "print": //typos
         printNodeValue(rand);
         pushDummyNode();
         return true;
@@ -420,6 +406,7 @@ public class CSEMachine{
       pushFalseNode();
   }
 
+  // pushTrueNode and pushFalseNode are methods that push a true or false node onto the value stack
   private void pushTrueNode(){
     ASTNode trueNode = new ASTNode();
     trueNode.setType(ASTNodeType.TRUE);
@@ -481,7 +468,7 @@ public class CSEMachine{
     if(rand.getType()!=ASTNodeType.INTEGER)
       EvaluationError.printError(rand.getSourceLineNumber(), "Expected an integer; was given \""+rand.getValue()+"\"");
     
-    rand.setType(ASTNodeType.STRING); //all values are stored internally as strings, so nothing else to do
+    rand.setType(ASTNodeType.STRING); 
     valueStack.push(rand);
   }
 
@@ -506,7 +493,6 @@ public class CSEMachine{
       pushFalseNode();
   }
 
-  // RULE 10
   private void tupleSelection(Tuple rator, ASTNode rand){
     if(rand.getType()!=ASTNodeType.INTEGER)
       EvaluationError.printError(rand.getSourceLineNumber(), "Non-integer tuple selection with \""+rand.getValue()+"\"");
@@ -518,15 +504,9 @@ public class CSEMachine{
     valueStack.push(result);
   }
 
-  /**
-   * Get the nth element of the tuple. Note that n starts from 1 and NOT 0.
-   * @param tupleNode
-   * @param n n starts from 1 and NOT 0.
-   * @return
-   */
   private ASTNode getNthTupleChild(Tuple tupleNode, int n){
     ASTNode childNode = tupleNode.getChild();
-    for(int i=1;i<n;++i){ //tuple selection index starts at 1
+    for(int i=1;i<n;++i){ //
       if(childNode==null)
         break;
       childNode = childNode.getSibling();
@@ -535,7 +515,7 @@ public class CSEMachine{
   }
 
   private void handleIdentifiers(ASTNode node, Environment currentEnv){
-    if(currentEnv.lookup(node.getValue())!=null) // RULE 1
+    if(currentEnv.lookup(node.getValue())!=null) 
       valueStack.push(currentEnv.lookup(node.getValue()));
     else if(isReservedIdentifier(node.getValue()))
       valueStack.push(node);
@@ -543,7 +523,6 @@ public class CSEMachine{
       EvaluationError.printError(node.getSourceLineNumber(), "Undeclared identifier \""+node.getValue()+"\"");
   }
 
-  //RULE 9
   private void createTuple(ASTNode node){
     int numChildren = getNumChildren(node);
     Tuple tupleNode = new Tuple();
@@ -570,7 +549,6 @@ public class CSEMachine{
     valueStack.push(tupleNode);
   }
 
-  // RULE 8
   private void handleBeta(Beta node, Stack<ASTNode> currentControlStack){
     ASTNode conditionResultNode = valueStack.pop();
 
@@ -600,7 +578,6 @@ public class CSEMachine{
     System.out.print(evaluationResult);
   }
 
-  // Note how this list is different from the one defined in Scanner.java
   private boolean isReservedIdentifier(String value){
     switch(value){
       case "Isinteger":
@@ -612,12 +589,10 @@ public class CSEMachine{
       case "ItoS":
       case "Order":
       case "Conc":
-      case "conc": //typos
       case "Stern":
       case "Stem":
       case "Null":
       case "Print":
-      case "print": //typos
       case "neg":
         return true;
     }

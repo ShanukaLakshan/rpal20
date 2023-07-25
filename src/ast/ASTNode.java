@@ -1,6 +1,6 @@
 package ast;
 
-import csem.NodeCopier;
+import csemachine.NodeCopier;
 
 /**
  * Abstract Syntax Tree node. Uses a first-child, next-sibling representation.
